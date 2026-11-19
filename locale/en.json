@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Yingma Canvas",
+    "description": "Sign in to Yingma and open the infinite canvas in the sidebar; the agent drives canvas nodes, edges and generation through the yingma CLI."
+  }
+}

@@ -1,0 +1,24 @@
+# 小影马画布：Host 半边（画布接口、登录向导、yingma CLI 工具）。
+# 浏览器半边由 package.json 的 dsh.client 声明加载。
+- insert:
+    - id: yingma-canvas
+      name: 'dsh-yingma-canvas'
+    # 小影马项目工具（画布 / 流水线 / 互动影游）走 MCP：`yingma mcp` 子进程。
+    # - 宿主进程本身是 ELECTRON_RUN_AS_NODE 的 Electron，GUI 应用的 PATH 里通常没有 node，
+    #   所以直接用宿主的 execPath 跑脚本，env 里带上 ELECTRON_RUN_AS_NODE。
+    # - 宿主的工作目录就是 profile 目录，插件装在它的 node_modules 下（链接安装也一样）。
+    # - YINGMA_PROJECT_SOURCE=dsh：工具跟着侧栏「小影马画布」里选的项目走。
+    - id: yingma-mcp
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: yingma
+        transport: stdio
+        command: !!js process.execPath
+        args:
+          # 求值环境是 ESM，没有 require；Windows 上 node 也接受正斜杠路径
+          - !!js process.cwd() + '/node_modules/dsh-yingma-canvas/skills/yingma-cli/scripts/yingma.js'
+          - mcp
+        env:
+          ELECTRON_RUN_AS_NODE: '1'
+          YINGMA_PROJECT_SOURCE: dsh
+        toolCallTimeoutMs: 120000

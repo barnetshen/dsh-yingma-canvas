@@ -1,0 +1,61 @@
+{
+  "name": "dsh-yingma-canvas",
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "description": "小影马画布 · DeepSeek Harness 插件：登录小影马，在侧栏打开无限画布；Agent 通过 yingma CLI 读写画布节点。",
+  "keywords": [
+    "dsh-plugin",
+    "dsh-bundle",
+    "deepseek-harness",
+    "yingma",
+    "canvas",
+    "video",
+    "ai-video"
+  ],
+  "license": "MIT",
+  "author": "Xiaoyingma",
+  "homepage": "https://yingma.tv",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barnetshen/dsh-yingma-canvas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/barnetshen/dsh-yingma-canvas/issues"
+  },
+  "icon": "./icon.svg",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "lib",
+    "web",
+    "skills",
+    "locale/*.json",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md",
+    "screenshots/shell.png",
+    "screenshots/projects.png",
+    "screenshots/login.png",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  },
+  "engines": {
+    "dsh": ">=0.2.1-rc.2 <0.3.0"
+  }
+}

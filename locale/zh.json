@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "小影马画布",
+    "description": "登录小影马，在侧栏打开无限画布；Agent 通过 yingma CLI 管理画布节点、连线和生成任务。"
+  }
+}
