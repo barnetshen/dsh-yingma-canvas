@@ -4,7 +4,7 @@
 
 ## 安装
 
-命令包包含 `SKILL.md`、本地 `yingma` 命令和参考文档。安装器要求 Node.js 18 或更高版本：
+Agent CLI 安装包包含 `SKILL.md`、本地 `yingma` 命令和参考文档。安装器要求 Node.js 18 或更高版本：
 
 - macOS / Linux：运行 `scripts/install-yingma-cli.sh`。
 - Windows PowerShell：运行 `scripts/install-yingma-cli.ps1`。
@@ -34,7 +34,7 @@ yingma doctor
 
 ## 登录仅在用户确认后进行
 
-网页登录态不会同步到 CLI。只有用户明确要求登录时，运行 `yingma auth login`：CLI 会自动获取并打开图形验证码，再引导完成邮件或短信验证码。验证码图片只保存在本地；认证令牌存于 `~/.yingma/config.json`，或由环境变量 `YINGMA_TOKEN` 提供。
+网页登录态不会同步到 CLI。只有用户明确要求登录时，运行 `yingma auth login --web`：CLI 会在浏览器打开小影马授权页，用户登录网页、核对确认码后点「授权」即可，不需要验证码。用户明确要求验证码登录时，才运行不带 `--web` 的 `yingma auth login`（需要可交互的终端）。认证令牌存于 `~/.yingma/config.json`，或由环境变量 `YINGMA_TOKEN` 提供。
 
 ## 开始创作
 

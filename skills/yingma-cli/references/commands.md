@@ -10,7 +10,7 @@ CLI 默认调用 https://api.yingma.tv。只有在已明确授权的兼容部署
     yingma auth login --email you@example.com
     yingma auth login --phone 13800000000
 
-`auth login --web`（推荐）在浏览器打开小影马授权页（`/cli/authorize`），在网页上用任意方式登录、核对确认码后点「授权」，CLI 轮询拿到令牌。授权页地址默认由 API 地址推出（`api.X` → `X`，本地 8181 → 3000），可用 `--web-origin` 或 `YINGMA_WEB_ORIGIN` 指定；`--no-open` 只打印链接。程序化调用用 `auth web-start [--client dsh] [--open]` 发起、`auth web-poll --device-code-stdin` 轮询一次。
+`auth login --web`（推荐）在浏览器打开小影马授权页（`/cli/authorize`），在网页上用任意方式登录、核对确认码后点「授权」，CLI 轮询拿到令牌。授权页地址默认由 API 地址推出（`api.X` → `X`，本地 8181 → 3000），可用 `--web-origin` 或 `YINGMA_WEB_ORIGIN` 指定；`--no-open` 只打印链接；`--client workbuddy|doubao|dsh` 让授权页显示是哪个客户端在请求（连接器配置里已带上，平时不用手动传）。登录成功只输出用户 ID，不打印手机号等账号信息。程序化调用用 `auth web-start [--client dsh] [--open]` 发起、`auth web-poll --device-code-stdin` 轮询一次。
 
 不带 `--web` 的交互式登录会自动获取并打开图形验证码，然后继续询问邮件或短信验证码。CI 或无交互终端仍可使用 `auth captcha`、`request-email|request-sms`、`login-email|login-sms` 分步完成。
 

@@ -96,6 +96,7 @@ test('发起 → 等待 → 批准：令牌存进 CLI 配置，device_code 不�
     approved = true
     const done = await post('/api/login/poll')
     assert.equal(done.json.status, 'approved', done.text)
+    assert.ok(!done.text.includes('a@b.c'), '账号信息不传给壳页')
     assert.equal(JSON.parse(readFileSync(CONFIG, 'utf8')).access_token, 'tok-from-web')
     assert.deepEqual(polled, ['dev-secret-0123456789', 'dev-secret-0123456789'])
     // 批准后这次请求就结束了，再轮询不会再去问服务端

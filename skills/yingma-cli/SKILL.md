@@ -11,7 +11,7 @@ description: 使用 yingma CLI 管理小影马 Agent 流水线、无限画布与
 
 首次安装、运行 `yingma doctor` 以及将检查结果交给用户时，阅读 [references/installation.md](references/installation.md)。
 
-用户要求登录时，运行 `yingma auth login`，由 CLI 打开图形验证码并引导完成邮箱或短信验证。未获得登录授权时，安装完成后只运行 `yingma doctor`。认证令牌仅保存在 `~/.yingma/config.json`，不要打印、提交或发送令牌、验证码、密码或配置文件内容。
+用户要求登录时，运行 `yingma auth login --web`：CLI 会在浏览器打开小影马授权页，用户登录网页、核对确认码后点「授权」，CLI 自动拿到令牌（最长等 10 分钟）。只有用户明确要求用验证码登录时，才用不带 `--web` 的 `yingma auth login`。未获得登录授权时，安装完成后只运行 `yingma doctor`。认证令牌仅保存在 `~/.yingma/config.json`，不要打印、提交或发送令牌、验证码、密码或配置文件内容。
 
 ## 对话引导
 

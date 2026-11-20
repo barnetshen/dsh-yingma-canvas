@@ -9,18 +9,18 @@ const readline = require('node:readline/promises');
 const { Readable } = require('node:stream');
 const { pipeline } = require('node:stream/promises');
 
-const VERSION = '0.5.3';
+const VERSION = '0.5.4';
 const DEFAULT_API_BASE = 'https://api.yingma.tv';
 const CANVAS_NODE_KINDS = new Set(['text', 'image', 'video', 'audio', 'script', 'frame_breakdown', 'director', 'assemble', 'group', 'subject']);
 
 function usage() {
   return [
-    'yingma ' + VERSION + ' - 小影马创作 CLI',
+    'yingma ' + VERSION + ' - 小影马 Agent CLI',
     '',
     'Usage:',
-    '  yingma auth login --web [--web-origin URL] [--no-open]   在网页上授权登录（推荐）',
+    '  yingma auth login --web [--client cli|dsh|workbuddy|doubao] [--web-origin URL] [--no-open]   在网页上授权登录（推荐）',
     '  yingma auth login [--email EMAIL | --phone PHONE]',
-    '  yingma auth web-start [--client dsh|cli] [--web-origin URL] [--open]',
+    '  yingma auth web-start [--client cli|dsh|workbuddy|doubao] [--web-origin URL] [--open]',
     '  yingma auth web-poll --device-code-stdin',
     '  yingma auth captcha --output FILE',
     '  yingma auth request-email --email EMAIL --captcha-id ID --captcha-code CODE',
@@ -516,8 +516,11 @@ function getWebOrigin(options) {
   return parsed.origin;
 }
 
+// 授权页按客户端显示请求方和文案；不认识的一律按命令行处理（后端同样回落）
+const WEB_LOGIN_CLIENTS = ['cli', 'dsh', 'workbuddy', 'doubao'];
+
 async function startWebLogin(options) {
-  const client = options.client === 'dsh' ? 'dsh' : 'cli';
+  const client = WEB_LOGIN_CLIENTS.includes(options.client) ? options.client : 'cli';
   const started = await request('/api/auth/cli/requests', { method: 'POST', auth: false, body: { client: client } });
   if (!started || !started.device_code || !started.user_code) throw new Error('授权请求的响应不完整');
   const url = getWebOrigin(options) + '/cli/authorize?code=' + encodeURIComponent(started.user_code);
@@ -530,7 +533,8 @@ async function startWebLogin(options) {
   };
 }
 
-// 轮询一次；批准时保存 token。返回 { status, user? }
+// 轮询一次；批准时保存 token。返回 { status, user? }。
+// user 只回 id：输出会落在终端、插件或宿主客户端日志里，手机号、余额、权限这些不该跟着走。
 async function pollWebLogin(deviceCode) {
   const out = await request('/api/auth/cli/token', { method: 'POST', auth: false, body: { device_code: deviceCode } });
   if (out && out.status === 'approved') {
@@ -538,7 +542,7 @@ async function pollWebLogin(deviceCode) {
     const config = readConfig();
     config.access_token = out.access_token;
     writeConfig(config);
-    return { status: 'approved', logged_in: true, token_saved_to: configPath(), user: out.user || null };
+    return { status: 'approved', logged_in: true, token_saved_to: configPath(), user: out.user && out.user.id ? { id: out.user.id } : null };
   }
   return { status: (out && out.status) || 'expired' };
 }

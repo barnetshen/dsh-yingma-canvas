@@ -9,7 +9,7 @@ yingma doctor
 yingma auth status
 ```
 
-`doctor` 会显示 CLI 版本、令牌来源（不显示令牌本身）及当前目录的项目绑定状态。未登录时，按验证码登录流程完成认证；未绑定项目时，先列出项目并选定目标。
+`doctor` 会显示 CLI 版本、令牌来源（不显示令牌本身）及当前目录的项目绑定状态。未登录时，运行 `yingma auth login --web` 在网页上授权；未绑定项目时，先列出项目并选定目标。
 
 ```bash
 yingma project list --limit 20 --scope mine
